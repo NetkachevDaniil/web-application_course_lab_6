@@ -1,0 +1,22 @@
+<form method="POST" action="{{ url_for('courses.create_review', course_id=course.id) }}">
+    <input type="hidden" name="next" value="{{ request.full_path if request.query_string else request.path }}">
+
+    <div class="mb-3">
+        <label for="review-rating" class="form-label">Оценка</label>
+        <select class="form-select" id="review-rating" name="rating">
+            <option value="5" selected>отлично</option>
+            <option value="4">хорошо</option>
+            <option value="3">удовлетворительно</option>
+            <option value="2">неудовлетворительно</option>
+            <option value="1">плохо</option>
+            <option value="0">ужасно</option>
+        </select>
+    </div>
+
+    <div class="mb-3">
+        <label for="review-text" class="form-label">Текст отзыва</label>
+        <textarea class="form-control" id="review-text" name="text" rows="4" placeholder="Поделитесь впечатлениями о курсе"></textarea>
+    </div>
+
+    <button class="btn btn-dark" type="submit">Сохранить отзыв</button>
+</form>
