@@ -40,6 +40,7 @@ class ImageSaver:
             file_name=file_name,
             mime_type=self.file.mimetype,
             md5_hash=self.md5_hash)
+        os.makedirs(current_app.config['UPLOAD_FOLDER'], exist_ok=True)
         self.file.save(
             os.path.join(current_app.config['UPLOAD_FOLDER'],
                          self.img.storage_filename))
