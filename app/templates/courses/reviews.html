@@ -42,7 +42,7 @@
     {% endif %}
 
     <div class="mb-5">
-        {{ render_pagination(pagination, request.endpoint, {'sort': sort}) }}
+        {{ render_pagination(pagination, request.endpoint, {'course_id': course.id, 'sort': sort}) }}
     </div>
 
     <section class="review-form-section mb-5">
