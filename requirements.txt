@@ -6,3 +6,4 @@ SQLAlchemy>=2.0.16
 alembic>=1.13.1
 python-dotenv>=1.0.1
 mysql-connector-python>=8.4.0
+gunicorn>=22.0.0
