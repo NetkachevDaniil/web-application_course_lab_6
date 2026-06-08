@@ -38,6 +38,32 @@ def image(image_id):
     return send_from_directory(app.config['UPLOAD_FOLDER'],
                                img.storage_filename)
 
+from models import db, Category, User  # если еще не импортировано
 
+def seed_initial_data():
+    if not db.session.execute(db.select(Category)).first():
+        db.session.add_all([
+            Category(name='Программирование', parent_id=None),
+            Category(name='Математика', parent_id=None),
+            Category(name='Языкознание', parent_id=None),
+        ])
+
+    u1 = db.session.execute(db.select(User).filter_by(login='user')).scalar()
+    if not u1:
+        u1 = User(first_name='Иван', last_name='Иванов', login='user')
+        u1.set_password('qwerty')
+        db.session.add(u1)
+
+    u2 = db.session.execute(db.select(User).filter_by(login='user2')).scalar()
+    if not u2:
+        u2 = User(first_name='Петр', last_name='Петров', login='user2')
+        u2.set_password('qwerty')
+        db.session.add(u2)
+
+    db.session.commit()
+
+with app.app_context():
+    db.create_all()
+    seed_initial_data()
 if __name__ == '__main__':
     app.run(debug=True)
