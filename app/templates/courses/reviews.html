@@ -23,20 +23,27 @@
     </form>
 
     {% if reviews %}
+        {% set ns = namespace(visible_count=0) %}
         <div class="list-group mb-4">
             {% for review in reviews %}
-                <div class="list-group-item">
-                    <div class="d-flex justify-content-between align-items-start">
-                        <div>
-                            <strong>{{ review.user.full_name }}</strong>
-                            <div class="text-muted small">{{ review.created_at.strftime('%d.%m.%Y %H:%M') }}</div>
+                {% if not (user_review and review.id == user_review.id) %}
+                    {% set ns.visible_count = ns.visible_count + 1 %}
+                    <div class="list-group-item">
+                        <div class="d-flex justify-content-between align-items-start">
+                            <div>
+                                <strong>{{ review.user.full_name }}</strong>
+                                <div class="text-muted small">{{ review.created_at.strftime('%d.%m.%Y %H:%M') }}</div>
+                            </div>
+                            <span class="badge bg-dark">Оценка: {{ review.rating }} ({{ rating_labels[review.rating] }})</span>
                         </div>
-                        <span class="badge bg-dark">Оценка: {{ review.rating }} ({{ rating_labels[review.rating] }})</span>
+                        <p class="mb-0 mt-2">{{ review.text }}</p>
                     </div>
-                    <p class="mb-0 mt-2">{{ review.text }}</p>
-                </div>
+                {% endif %}
             {% endfor %}
         </div>
+        {% if ns.visible_count == 0 %}
+            <div class="alert alert-light border">Отзывов других пользователей пока нет.</div>
+        {% endif %}
     {% else %}
         <div class="alert alert-light border">Отзывов пока нет.</div>
     {% endif %}
